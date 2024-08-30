@@ -7,8 +7,6 @@
 /////////////////////////////////////////////////
 // Data
 
-// DIFFERENT DATA! Contains movement dates, currency and locale
-
 const account1 = {
   owner: 'Jonas Schmedtmann',
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
@@ -92,10 +90,7 @@ const formatMovementDate = function(date,locale) {
   if(daysPassed <= 7) return `${daysPassed} days ago`;
   else{
     return new Intl.DateTimeFormat(locale).format(date);
-  // const day = `${date.getDate()}`.padStart(2,0);
-  // const month = `${date.getMonth() +1}`.padStart(2,0);
-  // const year = date.getFullYear();
-  // return `${day}/${month}/${year}`;
+  
   }
 };
 
@@ -207,12 +202,6 @@ const startLogOutTimer = function(){
 ///////////////////////////////////////
 // Event handlers
 let currentAccount, timer;
-
-// // FAKE ALWAYS LOGGED IN
-// currentAccount=account1;
-// updateUI(currentAccount);
-// containerApp.style.opacity=100;
-
 // Experimenting API
 const now= new Date();
 const options ={
@@ -255,19 +244,12 @@ btnLogin.addEventListener('click', function (e) {
       minute:'numeric',
       day:'numeric',
       month:'long', 
-      // 'numeric','2-digit'
       year: 'numeric',
      weekday: 'long'
     };
     // const locale = navigator.language;
     // console.log(locale);
     labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale,options).format(now);
-    // const day = `${now.getDate()}`.padStart(2,0);
-    // const month = `${now.getMonth() +1}`.padStart(2,0);
-    // const year = now.getFullYear();
-    // const hours = `${now.getHours()}`.padStart(2,0);
-    // const min =`${now.getMinutes()}`.padStart(2,0);
-    // labelDate.textContent =`${day}/${month}/${year}, ${hours}:${min}`;
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -366,138 +348,4 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAccount.movements, !sorted);
   sorted = !sorted;
 });
-
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
-// 1. Converting and Checking Numbers
-console.log(23 === 23.0);
-
-// Conversion
-console.log(Number('23'));
-console.log(+'23');
-// Parsing
-console.log(Number.parseInt('30px',10));
-console.log(Number.parseInt('e23',10));
-
-console.log(Number.parseInt('2.5rem'));
-console.log(Number.parseFloat('2.5rem'));
-
-console.log(Number.isNaN(20));
-console.log(Number.isNaN('20'));
-console.log(Number.isNaN(+'20X'));
-console.log(Number.isNaN(23/0));
-
-// 2. Math and Rounding
-console.log(Math.sqrt(25));
-console.log(25**(1/2));
-console.log(8 ** (1/3));
-
-console.log(Math.max(5,18,23,11,2));
-console.log(Math.max(5,18,'23',11,2));
-console.log(Math.max(5,18,'23px',11,2));
-
-console.log(Math.min(5,18,23,11,2));
-
-console.log(Math.PI * Number.parseFloat('10px') **2);
-
-console.log(Math.trunc(Math.random()* 6)+1);
-const randomInt = (min,max) => Math.trunc(Math.random() * (max - min) +1) + min;
-console.log(randomInt(10,20));
-
-// Rounding
-console.log(Math.trunc(23.3));
-
-console.log(Math.round(23.3));
-console.log(Math.round(23.9));
-
-console.log(Math.ceil(23.3));
-console.log(Math.ceil(23.9));
-
-console.log(Math.floor(23.3));
-console.log(Math.floor(23.9));
-
-console.log(Math.trunc(-23.3));
-console.log(Math.floor(-23.9));
-
-// Rounding Decimals
-console.log((2.7).toFixed(0));
-console.log((2.7).toFixed(3));
-console.log((2.345).toFixed(2));
-console.log(+(2.345).toFixed(2));
-
-// 3. The Remainder(%) Operator
-console.log(5 % 2);
-console.log(8 % 3);
-
-const isEven = n => n%2 ===0;
-console.log(isEven(8));
-console.log(isEven(23));
-console.log(isEven(524));
-
-
-labelBalance.addEventListener('click', function(){
-
-  [...document.querySelectorAll('.movements__row')].forEach(function(row,i){
-    if(i % 2 === 0) row.style.backgroundColor = 'orangered';
-    if( i % 3 === 0) row.style.backgroundColor = 'blue'
-  });
-});
-
-// 4. Numeric Separators
-// 287,460,000,000
-const diameter = 287_460_000_000;
-console.log(diameter);
-
-const priceCents = 345_99
-console.log(priceCents);
-
-const transferFee1 = 15_00;
-const transferFee2 = 1_500;
-
-const PI = 3.1415;
-console.log(PI);
-
-// 5. Creating Dates
-
-// const now = new Date();
-// console.log(now);
-
-// console.log(new Date('Aug 02 2020 18:05:41'));
-// console.log(new Date('December 24, 2015'));
-
-// console.log(new Date(account1.movementsDates[0]));
-// console.log(new Date(2037,10,19,15,23,5));
-// const future = new Date(2037,10,19,15,23);
-// console.log(future);
-// console.log(future.toISOString());
-
-// 6. Operations with Dates
- const future = new Date (2037,10,19,15,23);
- console.log(Number(future));
-
- const calcDaysPassed = (date1, date2) => Math.abs((date2 - date1)/ (1000*60*60*24));
- const days1 = calcDaysPassed(new Date(2037,3,14), new Date(2037,3,24));
- console.log(days1);
-
-//  7. Internationalizing Numbers
- const num = 3884764.23;
- const options1 = {
-  style:'unit',
-  unit:'mile-per-hour'
- }
- console.log('US: ', new Intl.NumberFormat('en-US',options1).format(num));
- console.log('Germany: ', new Intl.NumberFormat('de-DE',options1).format(num));
-
-//  8. setTimeout()
-
-setTimeout((ing1,ing2) => console.log(`Here is your pizza with ${ing1} and ${ing2}🍕`),3000,'olives', 'spinach');
-console.log('Waiting...');
-
-// 9. setInterval()
- // setInterval(function(){
-//   const now = new Date();
-//   console.log(now);
-// },3000);
 
